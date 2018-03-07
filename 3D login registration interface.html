@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登陆/注册</title>
+	<link rel="stylesheet" href="a.css">
+	<link rel="stylesheet" href="common.css">
+	<link rel="stylesheet" href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<header>
+		<a href="#" class="login"><i class="fa fa-user-circle"></i></a>
+	</header>
+	<main>
+		<div class="flip-modal login">
+			<div class="modal modal-login">
+				<a href="#" class="close fa fa-close"></a>
+				<div class="tabs">
+					<a href="#" class="login active">登陆</a>
+					<a href="#" class="register">注册</a>
+				</div>
+				<div class="content">
+					<div class="errormsg"></div>
+					<form action="/login" method="post">
+						<div class="input-field">
+							<i class="fa fa-user-o"></i>
+							<input type="text" name="username" placeholder="用户名">
+						</div>
+						<div class="input-field">
+							<i class="fa fa-lock"></i>
+							<input type="password" name="password" placeholder="密码">
+						</div>
+						<div class="input-field">
+							<button type="submit">登录</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal modal-register">
+				<a href="#" class="close fa fa-close"></a>
+				<div class="tabs">
+					<a href="#" class="login">登陆</a>
+					<a href="#" class="register active">注册</a>
+				</div>
+				<div class="content">
+					<div class="errormsg"></div>
+					<form action="/register" method="post">
+						<div class="input-field">
+							<i class="fa fa-user-o"></i>
+							<input type="text" name="username" placeholder="请输入用户名">
+						</div>
+						<div class="input-field">
+							<i class="fa fa-lock"></i>
+							<input type="password" name="password" placeholder="请输入密码">
+						</div>
+						<div class="input-field">
+							<i class="fa fa-lock"></i>
+							<input type="password" name="password2" placeholder="再次输入密码">
+						</div>
+						<div class="input-field">
+							<button type="submit">注册</button>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</main>	
+		
+	<script>
+		function $(selector) {
+			return document.querySelector(selector);
+		}
+
+		$('header .login').onclick = function(e){
+			e.stopPropagation()
+			$('.flip-modal').style.display = 'block'
+		}
+
+		$('.flip-modal').addEventListener("click",function(e){
+			e.stopPropagation()
+			if(e.target.classList.contains('login')){
+				$('.flip-modal').classList.remove('register')
+				$('.flip-modal').classList.add('login')
+			}
+			if(e.target.classList.contains('register')){
+				$('.flip-modal').classList.remove('login')
+				$('.flip-modal').classList.add('register')
+			}
+			if(e.target.classList.contains('close')){
+				$('.flip-modal').style.display = 'none'
+			}
+		})
+		
+		document.addEventListener("click",function(){
+			$('.flip-modal').style.display = 'none'
+		})
+		
+		$('.modal-login form').addEventListener("submit",function(e){
+			e.preventDefault()
+			if(!/^\w{3,8}$/.test($('.modal-login input[name=username]').value)) {
+				$('.modal-login .errormsg').innerText = '用户名需输入3-8个字符，包括字母数字下划线'
+				return false
+			}
+			if(!/^\w{6,16}$/.test($('.modal-login input[name=password]').value)) {
+				$('.modal-login .errormsg').innerText = '密码需输入6-16个字符，包括字母数字下划线'
+				return false
+			}
+			this.submit()
+		})
+
+				$('.modal-register form').addEventListener("submit",function(e){
+			e.preventDefault()
+			if(!/^\w{3,8}$/.test($('.modal-register input[name=username]').value)) {
+				$('.modal-register .errormsg').innerText = '用户名需输入3-8个字符，包括字母数字下划线'
+				return false
+			}
+			if(!/^\w{6,16}$/.test($('.modal-register input[name=password]').value)) {
+				$('.modal-register .errormsg').innerText = '密码需输入6-16个字符，包括字母数字下划线'
+				return false
+			}
+			if($('.modal-register input[name=password]').value !== $('.modal-register input[name=password2]').value) {
+				$('.modal-register .errormsg').innerText = '两次密码不一致'
+				return false
+			}
+			this.submit()
+		})
+	</script>
+
+</body>
+</html>
